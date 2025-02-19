@@ -9,11 +9,12 @@ import java.util.List;
 @Component
 public class UserDaoService {
     private static List<User> users = new ArrayList<>();
+    private static int usersCount = 0;
 
     static {
-        users.add(new User(1, "Adam", LocalDate.now().minusYears(30)));
-        users.add(new User(2, "Eve", LocalDate.now().minusYears(25)));
-        users.add(new User(3, "Jim", LocalDate.now().minusYears(20)));
+        users.add(new User(++usersCount, "Adam", LocalDate.now().minusYears(30)));
+        users.add(new User(++usersCount, "Eve", LocalDate.now().minusYears(25)));
+        users.add(new User(++usersCount, "Jim", LocalDate.now().minusYears(20)));
     }
 
     public List<User> findAll() {
@@ -22,5 +23,11 @@ public class UserDaoService {
 
     public User findUserWithId(int id) {
         return users.stream().filter(u -> u.getId() == id).findFirst().orElse(null);
+    }
+
+    public User saveUser(User user) {
+        user.setId(++usersCount);
+        users.add(user);
+        return user;
     }
 }
